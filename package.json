@@ -1,0 +1,36 @@
+{
+  "name": "seir",
+  "version": "1.0.0",
+  "description": "SEIR Model used in Epidemiology",
+  "main": "lib/index.js",
+  "files": ["lib/**/*"],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
+    "lint": "tslint -p tsconfig.json",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/paul-em/seir.git"
+  },
+  "keywords": [
+    "SEIR",
+    "Epidemiology",
+    "COVID",
+    "Corona",
+    "Virus"
+  ],
+  "author": "Paul Em",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/paul-em/seir/issues"
+  },
+  "homepage": "https://github.com/paul-em/seir#readme",
+  "devDependencies": {
+    "prettier": "^2.0.2",
+    "tslint": "^6.1.0",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.8.3"
+  }
+}
