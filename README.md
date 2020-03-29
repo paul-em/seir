@@ -36,3 +36,11 @@ const timeline = covid19.calculate({
 // [{ deaths: 0, hospitalized: 0, recovered: 0, totalInfected: 1, infected: 1, exposed: 2 }, ...]
 console.log(timeline);
 ```
+
+## Parameters
+
+### SeorModel
+
+| Name             | Required | Type   | Default | Example | Description |
+| ---              | ---      | ---    | ---     | ---     | ---         |
+| **r0**               | true     | Number | -       | 2.2     | Maximnum value of R0 if no measures are taken |
