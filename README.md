@@ -33,14 +33,42 @@ const timeline = covid19.calculate({
   days: 300,
 });
 
-// [{ deaths: 0, hospitalized: 0, recovered: 0, totalInfected: 1, infected: 1, exposed: 2 }, ...]
+/*
+[
+  { deaths: 0, hospitalized: 0, recovered: 0, totalInfected: 1, infected: 1, exposed: 2 },
+  { deaths: 0, hospitalized: 0, recovered: 1, totalInfected: 4, infected: 3, exposed: 5 },
+  ...
+]
+*/
 console.log(timeline);
 ```
 
 ## Parameters
 
-### SeorModel
+### new SeirModel
 
-| Name             | Required | Type   | Default | Example | Description |
-| ---              | ---      | ---    | ---     | ---     | ---         |
-| **r0**               | true     | Number | -       | 2.2     | Maximnum value of R0 if no measures are taken |
+| Name                 | Required | Type   | Default | Description |
+| ---                  | ---      | ---    | ---     | ---         |
+| **r0**               | true     | Number | -       | Maximnum value of R0 if no measures are taken |
+| **dDeath**           | true     | Number | -       | Time from start of infection to death |
+| **dIncubation**      | true     | Number | -       | Length of incubation period |
+| **dInfectious**      | true     | Number | -       | Duration patient is infectious |
+| **dRecoveryMild**    | true     | Number | -       | Recovery time for mild cases |
+| **dRecoveryServere** | true     | Number | -       | Recovery time for servere cases |
+| **dHospitalLag**     | true     | Number | -       | Time to hospitalization |
+| **cfr**              | true     | Number | -       | Case fatality rate |
+| **pServere**         | true     | Number | -       | Hospitalization rate |
+| **duration**         | false    | Number | 7 \* 12 \* 1e10 | Duration of simulation |
+| **dt**               | false    | Number | 1       | Time step size (days) |
+| **integrator**       | false    | String | RK4     | Integrator to use. Available are Euler, Midpoint, Heun, K3, SSP33, SSP43, RK4, RK38 |
+
+### model.calculate
+
+| Name                   | Required | Type   | Default | Description |
+| ---                    | ---      | ---    | ---     | ---         |
+| **population**         | true     | Number | -       | Population of the location to run the simulation on |
+| **initiallyInfected**  | false    | Number | 1       | Number of initially infected people |
+| **initiallyExposed**   | false    | Number | 0       | Number of initially exposed people |
+| **r0ReductionPercent** | false    | Number | 0       | How much the r0 value should be reduced (for example because of measures) |
+| **r0ReductionDay**     | false    | Number | 0       | On which the the reduction should take place |
+| **days**               | false    | Number | 110     | For how many days the calculation should return a value |
