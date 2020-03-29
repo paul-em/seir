@@ -4,6 +4,8 @@ This is a JavaScript implementation of the classical infectious disease model SE
 
 Most of this code was copied from the wonderfull [Epidemic Calculator](http://gabgoh.github.io/COVID/index.html) and rewritten in TypeScript and published on npm.
 
+> Can be used in node.js and in the browser.
+
 ## Getting started
 
 ```npm install seir```
