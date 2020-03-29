@@ -94,14 +94,16 @@ export default class SeirModel {
     initiallyInfected = 1,
     r0ReductionPercent = 0,
     r0ReductionDay = 0,
+    days = 110,
   }:{
     population:number,
     initiallyInfected?:number,
     r0ReductionPercent?:number,
     r0ReductionDay?:number,
+    days?:number,
   }) {
     const interpolationSteps = 40;
-    let steps = 110 * interpolationSteps;
+    let steps = days * interpolationSteps;
     const _dt = this.dt / interpolationSteps;
     const sampleStep = interpolationSteps;
     const f = (t:number, x:number[]) => {
