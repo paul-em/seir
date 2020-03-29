@@ -92,12 +92,14 @@ export default class SeirModel {
   calculate({
     population,
     initiallyInfected = 1,
+    initiallyExposed = 0,
     r0ReductionPercent = 0,
     r0ReductionDay = 0,
     days = 110,
   }:{
     population:number,
     initiallyInfected?:number,
+    initiallyExposed?:number,
     r0ReductionPercent?:number,
     r0ReductionDay?:number,
     days?:number,
@@ -145,7 +147,7 @@ export default class SeirModel {
       return [dS, dE, dI, dMild, dSevere, dSevere_H, dFatal, dR_Mild, dR_Severe, dR_Fatal];
     }
   
-    let v = [1, 0, initiallyInfected / (population - initiallyInfected), 0, 0, 0, 0, 0, 0, 0];
+    let v = [1, initiallyExposed / (population - initiallyExposed), initiallyInfected / (population - initiallyInfected), 0, 0, 0, 0, 0, 0, 0];
     let t = 0;
   
     const timeline = [];
