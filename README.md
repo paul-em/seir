@@ -6,6 +6,8 @@ Most of this code was copied from the wonderfull [Epidemic Calculator](http://ga
 
 > Can be used in node.js and in the browser.
 
+Zero dependencies.
+
 ## Getting started
 
 ```npm install seir```
@@ -74,3 +76,12 @@ console.log(timeline);
 | **r0ReductionPercent** | false    | Number | 0       | How much the r0 value should be reduced (for example because of measures) |
 | **r0ReductionDay**     | false    | Number | 0       | On which the the reduction should take place |
 | **days**               | false    | Number | 110     | For how many days the calculation should return a value |
+
+## Credits
+
+[Gabriel Goh](https://github.com/gabgoh) for creating the [Epidemic Calculator](http://gabgoh.github.io/COVID/index.html) and therefore implementing pretty much all of these calculations. He also acknowledged
+[Steven De Keninck](https://enkimute.github.io/) for RK4 Integrator. [Chris Olah](https://twitter.com/ch402), [Shan Carter](https://twitter.com/shancarter) and [Ludwig Schubert](https://twitter.com/ludwigschubert) wonderful feedback. [Nikita Jerschov](https://twitter.com/NikitaJer) for improving clarity of text. Charie Huang for context and discussion.
+
+## Licence
+
+MIT
