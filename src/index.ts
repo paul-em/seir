@@ -6,8 +6,6 @@ interface IntegratorMap {
 export default class SeirModel {
   /** Maximnum value of R0 if no measures are taken */
   r0:number;
-  /** Number of initial infections */
-  i0:number;
   /** Time from start of infection to death */
   dDeath:number;
   /** Length of incubation period */
@@ -31,7 +29,6 @@ export default class SeirModel {
   integrator:string;
   constructor(data:{
     r0:number,
-    i0:number,
     dDeath:number,
     dIncubation:number,
     dInfectious:number,
@@ -45,7 +42,6 @@ export default class SeirModel {
     integrator?:string,
   }) {
     this.r0 = data.r0;
-    this.i0 = data.i0;
     this.dDeath = data.dDeath;
     this.dIncubation = data.dIncubation;
     this.dInfectious = data.dInfectious;
@@ -56,7 +52,7 @@ export default class SeirModel {
     this.pServere = data.pServere;
     this.dt = data.dt || 1;
     this.duration = data.duration || 7 * 12 * 1e10;
-    this.integrator = data.integrator || 'K3';
+    this.integrator = data.integrator || 'RK4';
   }
 
   static Integrators:IntegratorMap = {
@@ -95,22 +91,23 @@ export default class SeirModel {
 
   calculate({
     population,
+    initiallyInfected = 1,
     r0ReductionPercent = 0,
     r0ReductionDay = 0,
   }:{
     population:number,
+    initiallyInfected?:number,
     r0ReductionPercent?:number,
     r0ReductionDay?:number,
   }) {
     const interpolationSteps = 40;
-    let steps = 310 * interpolationSteps;
+    let steps = 110 * interpolationSteps;
     const _dt = this.dt / interpolationSteps;
     const sampleStep = interpolationSteps;
-  
     const f = (t:number, x:number[]) => {
       let beta;
       if (t > r0ReductionDay && t < r0ReductionDay + this.duration) {
-        beta = (r0ReductionPercent) * this.r0 / (this.dInfectious);
+        beta = ((100 - r0ReductionPercent) / 100) * this.r0 / (this.dInfectious);
       } else if (t > r0ReductionDay + this.duration) {
         beta = 0.5 * this.r0 / (this.dInfectious);
       } else {
@@ -142,44 +139,28 @@ export default class SeirModel {
       const dR_Mild = (1 / this.dRecoveryMild) * Mild;
       const dR_Severe = (1 / this.dRecoveryServere) * Severe_H;
       const dR_Fatal = (1 / this.dDeath) * Fatal;
-  
       //      0   1   2   3      4        5          6       7        8          9
       return [dS, dE, dI, dMild, dSevere, dSevere_H, dFatal, dR_Mild, dR_Severe, dR_Fatal];
     }
   
-    let v = [1, 0, this.i0 / (population - this.i0), 0, 0, 0, 0, 0, 0, 0];
+    let v = [1, 0, initiallyInfected / (population - initiallyInfected), 0, 0, 0, 0, 0, 0, 0];
     let t = 0;
   
-    const P = [];
-    const TI = [];
-    const Iters = [];
+    const timeline = [];
     while (steps--) {
       if ((steps + 1) % (sampleStep) === 0) {
-        P.push([
-          // Dead
-          population * v[9],
-          // Hospital
-          population * (v[5] + v[6]),
-          // Recovered
-          population * (v[7] + v[8]),
-          // Infected
-          population * v[2],
-          // Exposed
-          population * v[1]
-        ]);
-        Iters.push(v);
-        TI.push(population * (1 - v[0]));
+        timeline.push({
+          deaths: Math.round(population * v[9]),
+          hospitalized: Math.round(population * (v[5] + v[6])),
+          recovered: Math.round(population * (v[7] + v[8])),
+          totalInfected: Math.round(population * (1 - v[0])),
+          infected: Math.round(population * v[2]),
+          exposed: Math.round(population * v[1]),
+        });
       }
       v = SeirModel.integrate(SeirModel.Integrators[this.integrator], f, v, t, _dt);
       t += _dt;
     }
-    return {
-      P,
-      deaths: population * v[6],
-      total: 1 - v[0],
-      total_infected: TI,
-      Iters,
-      dIters: f,
-    };
+    return timeline;
   }
 }
