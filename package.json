@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "description": "SEIR Model used in Epidemiology",
   "main": "lib/index.js",
-  "files": ["lib/**/*"],
+  "files": [
+    "lib/**/*"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --config jestconfig.json",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "tslint -p tsconfig.json",
     "build": "tsc"
@@ -28,7 +30,10 @@
   },
   "homepage": "https://github.com/paul-em/seir#readme",
   "devDependencies": {
+    "@types/jest": "^25.1.4",
+    "jest": "^25.2.3",
     "prettier": "^2.0.2",
+    "ts-jest": "^25.2.1",
     "tslint": "^6.1.0",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.8.3"
