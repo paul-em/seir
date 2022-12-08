@@ -31,7 +31,7 @@
   "homepage": "https://github.com/paul-em/seir#readme",
   "devDependencies": {
     "@types/jest": "^25.1.4",
-    "jest": "^25.2.3",
+    "jest": "^29.3.1",
     "prettier": "^2.0.2",
     "ts-jest": "^25.2.1",
     "tslint": "^6.1.0",
